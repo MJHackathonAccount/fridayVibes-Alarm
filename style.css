@@ -1,0 +1,981 @@
+/* BEAUTIFUL VISUAL REWARD WITH PAINFUL AUDIO */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    cursor: default;
+}
+
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Setup screen styles */
+#setupScreen {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-size: 200% 200%;
+    animation: gentleGradientShift 8s ease-in-out infinite;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    animation: gentleFloat 6s ease-in-out infinite;
+    max-width: 550px;
+    width: 90%;
+    position: relative;
+}
+
+@keyframes gentleGradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.02); }
+}
+
+.rainbow-text {
+    font-size: 2.2rem;
+    font-weight: 300;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gentleTextShift 4s ease-in-out infinite;
+    margin-bottom: 0.5rem;
+}
+
+@keyframes gentleTextShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.warning {
+    color: #764ba2;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    opacity: 0.8;
+}
+
+/* Removed blink animation for visual appeal */
+
+.time-display {
+    margin: 1rem 0;
+    font-size: 2rem;
+    color: #667eea;
+    font-weight: 300;
+    animation: subtleGlow 3s ease-in-out infinite;
+}
+
+@keyframes subtleGlow {
+    0%, 100% { text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3); }
+    50% { text-shadow: 0 2px 20px rgba(102, 126, 234, 0.6); }
+}
+
+.alarm-setup {
+    margin: 1rem 0;
+    padding-bottom: 80px; /* Space for fixed buttons */
+}
+
+.alarm-setup label {
+    color: #333;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.alarm-setup input {
+    font-size: 1.2rem;
+    padding: 0.8rem;
+    border: 2px solid #667eea;
+    background: #fff;
+    color: #333;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    width: 150px;
+}
+
+.alarm-setup input:focus {
+    outline: none;
+    border-color: #764ba2;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Daily Goals Section Styling - Compact */
+.goals-section {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 1rem;
+    border-radius: 15px;
+    margin: 1rem 0;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    transition: all 0.3s ease;
+}
+
+.goals-section:hover {
+    border-color: rgba(102, 126, 234, 0.4);
+    background: rgba(102, 126, 234, 0.15);
+}
+
+.goals-section h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.goals-section p {
+    color: #666;
+    margin-bottom: 0.8rem;
+    font-size: 0.85rem;
+    text-align: center;
+}
+/* Goals Scrollable Container */
+.goals-scroll-container {
+    max-height: 40vh;
+    overflow-y: auto;
+    margin-top: 1rem;
+    padding-right: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(102, 126, 234, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar for goals section */
+.goals-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.goals-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.goals-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 3px;
+}
+
+.goals-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.5);
+}
+.goals-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.goal-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.goal-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.goal-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #667eea;
+    cursor: pointer;
+}
+
+.goal-label {
+    color: #333;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+.goal-checkbox:checked + .goal-label {
+    text-decoration: line-through;
+    color: #667eea;
+    opacity: 0.7;
+}
+
+.custom-goals {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 2px dashed rgba(102, 126, 234, 0.3);
+}
+
+.custom-goal-input {
+    flex: 1;
+    padding: 0.6rem;
+    border: 2px solid rgba(102, 126, 234, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.custom-goal-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(102, 126, 234, 0.2);
+}
+
+.custom-goal-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* Remove Goal Button */
+.remove-goal-btn {
+    background: rgba(244, 67, 54, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-goal-btn:hover {
+    background: rgba(244, 67, 54, 1);
+    transform: scale(1.1);
+}
+
+/* Add Goal Button */
+.add-goal-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.add-goal-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.add-goal-btn:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(45deg, #764ba2, #667eea);
+}
+
+/* Fixed Button Container */
+.fixed-buttons {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 3rem);
+    max-width: 520px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 0.8rem;
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    z-index: 1000;
+}
+
+.pulse-btn, .danger-btn {
+    font-size: 0.85rem;
+    padding: 0.8rem 1.2rem;
+    margin: 0;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex: 1;
+    max-width: 180px;
+}
+
+.pulse-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.pulse-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.danger-btn {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+}
+
+.danger-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+}
+
+/* Removed aggressive button animations for visual appeal */
+
+/* ALARM SCREEN - TOTAL VISUAL CHAOS AND BLINDING MADNESS */
+#alarmScreen {
+    background: linear-gradient(135deg, #ff0080 0%, #00ff80 25%, #8000ff 50%, #ff8000 75%, #0080ff 100%);
+    background-size: 800% 800%;
+    animation: chaoticRainbow 1s linear infinite, blindingFlash 0.3s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.chaos-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.strobe-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,0,255,0.3) 40%, rgba(0,255,255,0.3) 70%, transparent 100%);
+    animation: blindingStrobe 0.15s ease-in-out infinite, colorBlast 0.5s linear infinite;
+    z-index: 1;
+}
+
+@keyframes blindingStrobe {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 1; }
+}
+
+@keyframes colorBlast {
+    0% { background: radial-gradient(circle, rgba(255,0,0,0.8) 0%, rgba(255,255,0,0.4) 50%, transparent 100%); }
+    25% { background: radial-gradient(circle, rgba(0,255,0,0.8) 0%, rgba(0,255,255,0.4) 50%, transparent 100%); }
+    50% { background: radial-gradient(circle, rgba(0,0,255,0.8) 0%, rgba(255,0,255,0.4) 50%, transparent 100%); }
+    75% { background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,128,0,0.4) 50%, transparent 100%); }
+}
+
+@keyframes chaoticRainbow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 800% 800%; }
+}
+
+@keyframes blindingFlash {
+    0%, 100% { filter: brightness(1) contrast(1); }
+    50% { filter: brightness(1.8) contrast(1.5) saturate(2); }
+}
+
+.shake-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    animation: violentShake 0.2s ease-in-out infinite;
+}
+
+@keyframes violentShake {
+    0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+    10% { transform: translate(-5px, -3px) rotate(-2deg); }
+    20% { transform: translate(-8px, 0px) rotate(1deg); }
+    30% { transform: translate(5px, 3px) rotate(0deg); }
+    40% { transform: translate(2px, -2px) rotate(1deg); }
+    50% { transform: translate(-2px, 3px) rotate(-1deg); }
+    60% { transform: translate(-5px, 2px) rotate(0deg); }
+    70% { transform: translate(5px, 2px) rotate(-1deg); }
+    80% { transform: translate(-2px, -2px) rotate(1deg); }
+    90% { transform: translate(2px, 4px) rotate(0deg); }
+}
+
+.spinning-madness {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    animation: spinChaos 1s linear infinite, scaleMadness 0.8s ease-in-out infinite;
+}
+
+@keyframes spinChaos {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(0.9); }
+    75% { transform: rotate(270deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes scaleMadness {
+    0%, 100% { transform: scale(1) skew(0deg); }
+    33% { transform: scale(1.05) skew(2deg); }
+    66% { transform: scale(0.95) skew(-2deg); }
+}
+
+/* Chaotic energizing text with wild movements */
+.motivational-text {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 1);
+    text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff, 0 0 60px #ffff00;
+    z-index: 5;
+    animation: wildTextChaos 1s ease-in-out infinite, textColorBlast 0.4s linear infinite;
+    pointer-events: none;
+    text-align: center;
+    transform-origin: center;
+}
+
+@keyframes wildTextChaos {
+    0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateY(-50px) scale(1.3) rotate(10deg); }
+    50% { transform: translateY(30px) scale(0.8) rotate(-15deg); }
+    75% { transform: translateY(-20px) scale(1.1) rotate(5deg); }
+}
+
+@keyframes textColorBlast {
+    0% { color: #ff0080; text-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080; }
+    20% { color: #00ff80; text-shadow: 0 0 20px #00ff80, 0 0 40px #00ff80; }
+    40% { color: #8000ff; text-shadow: 0 0 20px #8000ff, 0 0 40px #8000ff; }
+    60% { color: #ff8000; text-shadow: 0 0 20px #ff8000, 0 0 40px #ff8000; }
+    80% { color: #0080ff; text-shadow: 0 0 20px #0080ff, 0 0 40px #0080ff; }
+    100% { color: #ff0080; text-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080; }
+}
+
+.motivational-text:nth-child(4) {
+    top: 15%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.motivational-text:nth-child(5) {
+    top: 25%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+.motivational-text:nth-child(6) {
+    bottom: 25%;
+    left: 25%;
+    animation-delay: 2s;
+}
+
+.motivational-text:nth-child(7) {
+    bottom: 15%;
+    right: 20%;
+    animation-delay: 3s;
+}
+
+/* Removed aggressive moving animations */
+
+/* Beautiful floating motivational messages */
+.floating-text {
+    position: absolute;
+    font-size: 2rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+    z-index: 5;
+    animation: gentleFloat 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* Updated floating text positions and timing */
+.floating-text:nth-child(4) {
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.floating-text:nth-child(5) {
+    top: 30%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+.floating-text:nth-child(6) {
+    bottom: 30%;
+    left: 20%;
+    animation-delay: 2s;
+}
+
+.floating-text:nth-child(7) {
+    bottom: 20%;
+    right: 25%;
+    animation-delay: 3s;
+}
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    50% { transform: translateY(-15px) scale(1.05); opacity: 1; }
+}
+
+/* Evil moving dismiss button - chase me if you can! */
+.real-dismiss {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    font-size: 1.8rem;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+    color: #333;
+    border: 3px solid rgba(255,0,0,0.8);
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 25;
+    opacity: 0.95;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(255,0,0,0.3), 0 0 30px rgba(255,255,255,0.5);
+    animation: evilButtonChase 4s ease-in-out infinite;
+    white-space: nowrap;
+}
+
+@keyframes evilButtonChase {
+    0% { 
+        top: 20%; 
+        left: 20%; 
+        transform: rotate(0deg) scale(1);
+        background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+    }
+    12.5% { 
+        top: 15%; 
+        left: 70%; 
+        transform: rotate(45deg) scale(1.1);
+        background: linear-gradient(135deg, rgba(255,200,200,0.95) 0%, rgba(255,150,150,0.8) 100%);
+    }
+    25% { 
+        top: 60%; 
+        left: 75%; 
+        transform: rotate(90deg) scale(0.9);
+        background: linear-gradient(135deg, rgba(200,255,200,0.95) 0%, rgba(150,255,150,0.8) 100%);
+    }
+    37.5% { 
+        top: 70%; 
+        left: 30%; 
+        transform: rotate(135deg) scale(1.2);
+        background: linear-gradient(135deg, rgba(200,200,255,0.95) 0%, rgba(150,150,255,0.8) 100%);
+    }
+    50% { 
+        top: 25%; 
+        left: 10%; 
+        transform: rotate(180deg) scale(1);
+        background: linear-gradient(135deg, rgba(255,255,200,0.95) 0%, rgba(255,255,150,0.8) 100%);
+    }
+    62.5% { 
+        top: 80%; 
+        left: 60%; 
+        transform: rotate(225deg) scale(1.1);
+        background: linear-gradient(135deg, rgba(255,200,255,0.95) 0%, rgba(255,150,255,0.8) 100%);
+    }
+    75% { 
+        top: 40%; 
+        left: 80%; 
+        transform: rotate(270deg) scale(0.8);
+        background: linear-gradient(135deg, rgba(200,255,255,0.95) 0%, rgba(150,255,255,0.8) 100%);
+    }
+    87.5% { 
+        top: 10%; 
+        left: 45%; 
+        transform: rotate(315deg) scale(1.3);
+        background: linear-gradient(135deg, rgba(255,180,180,0.95) 0%, rgba(255,120,120,0.8) 100%);
+    }
+    100% { 
+        top: 20%; 
+        left: 20%; 
+        transform: rotate(360deg) scale(1);
+        background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
+    }
+}
+
+.real-dismiss:hover {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(255,0,0,0.5), 0 0 40px rgba(255,255,255,0.8);
+    animation-play-state: paused; /* Pause movement on hover to make it slightly easier */
+}
+
+.real-dismiss:active {
+    transform: translateY(0) scale(0.95);
+    animation-play-state: paused;
+}
+
+.real-dismiss.hidden {
+    display: none;
+}
+
+/* Beautiful energy orbs instead of chaos elements */
+.energy-orb {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(102,126,234,0.6) 50%, rgba(118,75,162,0.4) 100%);
+    border-radius: 50%;
+    animation: energyFloat 4s ease-in-out infinite;
+    z-index: 3;
+    box-shadow: 0 0 30px rgba(255,255,255,0.5);
+}
+
+.energy-orb:nth-child(8) {
+    top: 25%;
+    left: 35%;
+    animation-delay: 0s;
+}
+
+.energy-orb:nth-child(9) {
+    top: 60%;
+    right: 25%;
+    animation-delay: 1.5s;
+}
+
+.energy-orb:nth-child(10) {
+    bottom: 35%;
+    left: 55%;
+    animation-delay: 3s;
+}
+
+@keyframes energyFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    33% { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }
+    66% { transform: translate(-20px, 30px) scale(0.9); opacity: 0.7; }
+}
+
+/* PARTY POPPER EXPLOSIONS - TOTAL CHAOS */
+.party-popper {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #ff00ff 0%, #00ffff 50%, #ffff00 100%);
+    border-radius: 50%;
+    z-index: 8;
+    animation: popperExplosion 2s ease-out infinite;
+}
+
+.party-popper:nth-child(11) {
+    top: 10%; left: 10%;
+    animation-delay: 0s;
+    background: radial-gradient(circle, #ff0080 0%, #80ff00 100%);
+}
+
+.party-popper:nth-child(12) {
+    top: 20%; right: 15%;
+    animation-delay: 0.3s;
+    background: radial-gradient(circle, #0080ff 0%, #ff8000 100%);
+}
+
+.party-popper:nth-child(13) {
+    bottom: 30%; left: 20%;
+    animation-delay: 0.6s;
+    background: radial-gradient(circle, #8000ff 0%, #00ff80 100%);
+}
+
+.party-popper:nth-child(14) {
+    bottom: 15%; right: 25%;
+    animation-delay: 0.9s;
+    background: radial-gradient(circle, #ff8000 0%, #0080ff 100%);
+}
+
+.party-popper:nth-child(15) {
+    top: 50%; left: 50%;
+    animation-delay: 1.2s;
+    background: radial-gradient(circle, #ff00ff 0%, #ffff00 100%);
+}
+
+@keyframes popperExplosion {
+    0% { 
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(3) rotate(180deg);
+        opacity: 1;
+        box-shadow: 0 0 50px #ff00ff, 0 0 100px #00ffff;
+    }
+    40% {
+        transform: scale(1.5) rotate(360deg) translateX(200px) translateY(-150px);
+        opacity: 0.8;
+    }
+    60% {
+        transform: scale(2) rotate(540deg) translateX(-100px) translateY(200px);
+        opacity: 0.6;
+    }
+    80% {
+        transform: scale(0.5) rotate(720deg) translateX(150px) translateY(-100px);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(0) rotate(900deg) translateX(-200px) translateY(250px);
+        opacity: 0;
+    }
+}
+
+/* FLYING BIRDS - CROSSING CHAOS */
+.flying-bird {
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    background: #000;
+    z-index: 9;
+    animation: birdFlight 3s linear infinite;
+    clip-path: polygon(0% 50%, 20% 0%, 40% 30%, 60% 0%, 80% 30%, 100% 50%, 80% 70%, 60% 100%, 40% 70%, 20% 100%);
+}
+
+.flying-bird:nth-child(16) {
+    top: 15%;
+    left: -50px;
+    animation-delay: 0s;
+    background: #ff0080;
+}
+
+.flying-bird:nth-child(17) {
+    top: 35%;
+    right: -50px;
+    animation-delay: 1s;
+    background: #00ff80;
+    animation-direction: reverse;
+}
+
+.flying-bird:nth-child(18) {
+    top: 55%;
+    left: -50px;
+    animation-delay: 2s;
+    background: #8000ff;
+}
+
+.flying-bird:nth-child(19) {
+    top: 75%;
+    right: -50px;
+    animation-delay: 0.5s;
+    background: #ff8000;
+    animation-direction: reverse;
+}
+
+.flying-bird:nth-child(20) {
+    top: 25%;
+    left: -50px;
+    animation-delay: 1.5s;
+    background: #0080ff;
+}
+
+@keyframes birdFlight {
+    0% {
+        transform: translateX(0) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translateX(400px) rotate(10deg) scale(1.2);
+    }
+    50% {
+        transform: translateX(800px) rotate(-5deg) scale(0.8);
+    }
+    75% {
+        transform: translateX(1200px) rotate(15deg) scale(1.1);
+    }
+    100% {
+        transform: translateX(1600px) rotate(0deg) scale(1);
+    }
+}
+
+/* Chaotic blinding alarm time display */
+.alarm-time-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6rem;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff, 0 0 60px #ffff00, 0 0 80px #ff0080;
+    z-index: 15;
+    animation: timeChaoticGlow 0.3s ease-in-out infinite, timeSpin 2s linear infinite;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid rgba(255, 0, 255, 0.8);
+}
+
+@keyframes timeChaoticGlow {
+    0%, 100% { 
+        text-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080, 0 0 60px #ff0080;
+        color: #ff0080;
+    }
+    20% { 
+        text-shadow: 0 0 20px #00ff80, 0 0 40px #00ff80, 0 0 60px #00ff80;
+        color: #00ff80;
+    }
+    40% { 
+        text-shadow: 0 0 20px #8000ff, 0 0 40px #8000ff, 0 0 60px #8000ff;
+        color: #8000ff;
+    }
+    60% { 
+        text-shadow: 0 0 20px #ff8000, 0 0 40px #ff8000, 0 0 60px #ff8000;
+        color: #ff8000;
+    }
+    80% { 
+        text-shadow: 0 0 20px #0080ff, 0 0 40px #0080ff, 0 0 60px #0080ff;
+        color: #0080ff;
+    }
+}
+
+@keyframes timeSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    25% { transform: translate(-50%, -50%) rotate(90deg) scale(1.1); }
+    50% { transform: translate(-50%, -50%) rotate(180deg) scale(0.9); }
+    75% { transform: translate(-50%, -50%) rotate(270deg) scale(1.2); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+}
+
+#alarmStatus {
+    color: #667eea;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+/* Removed status blinking for visual appeal */
+
+/* Mobile responsiveness for beautiful experience */
+@media (max-width: 768px) {
+    .rainbow-text {
+        font-size: 2.5rem;
+    }
+    
+    .floating-text {
+        font-size: 1.5rem;
+    }
+    
+    .alarm-time-display {
+        font-size: 3rem;
+        padding: 1.5rem 2rem;
+    }
+    
+    .real-dismiss {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+        bottom: 5%;
+        right: 5%;
+    }
+    
+    .container {
+        padding: 2rem;
+        margin: 1rem;
+        max-width: 95%;
+    }
+    
+    .alarm-setup {
+        max-height: 55vh;
+        padding-bottom: 95px;
+    }
+    
+    .fixed-buttons {
+        flex-direction: column;
+        gap: 8px;
+        padding: 0.6rem;
+        left: 1rem;
+        right: 1rem;
+        bottom: 0.5rem;
+    }
+    
+    .pulse-btn, .danger-btn {
+        font-size: 0.8rem;
+        padding: 0.7rem 1rem;
+        max-width: none;
+        margin: 0;
+    }
+    
+    .goal-item {
+        padding: 0.5rem;
+    }
+    
+    .goal-label {
+        font-size: 0.8rem;
+    }
+    
+    .custom-goal-input {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+    
+    .add-goal-btn {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .remove-goal-btn {
+        width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+    }
+    }
+    
+    .goals-section {
+        padding: 1.5rem;
+    }
+    
+    .goal-item {
+        padding: 0.6rem;
+        gap: 0.8rem;
+    }
+    
+    .goal-label {
+        font-size: 1rem;
+    }
+    
+    .custom-goal-input {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+}

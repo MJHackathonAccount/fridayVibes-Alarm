@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 BEAUTIFUL WAKE-UP EXPERIENCE 🌟</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="setupScreen" class="screen active">
+        <div class="container">
+            <h1 class="rainbow-text">🌟 Beautiful Alarm Clock 🌟</h1>
+            <p class="warning">✨ Visually stunning, audibly effective ✨</p>
+            
+            <div class="time-display">
+                <div id="currentTime"></div>
+            </div>
+            
+            <div class="alarm-setup">
+                <label for="alarmTime">Set Your Wake-Up Time:</label>
+                <input type="time" id="alarmTime">
+                
+                <!-- Daily Goals Section -->
+                <div class="goals-section">
+                    <h3>🎯 Daily Goals & Motivation</h3>
+                    <p>Set your intentions for an amazing day ahead!</p>
+                    
+                    <!-- Scrollable Goals Container -->
+                    <div class="goals-scroll-container">
+                        <div class="goals-container">
+                            <div class="goal-item">
+                                <input type="checkbox" id="goal1" class="goal-checkbox">
+                                <label for="goal1" class="goal-label">💪 Exercise for 30 minutes</label>
+                            </div>
+                            <div class="goal-item">
+                                <input type="checkbox" id="goal2" class="goal-checkbox">
+                                <label for="goal2" class="goal-label">📚 Read for 20 minutes</label>
+                            </div>
+                            <div class="goal-item">
+                                <input type="checkbox" id="goal3" class="goal-checkbox">
+                                <label for="goal3" class="goal-label">💧 Drink 8 glasses of water</label>
+                            </div>
+                            <div class="goal-item">
+                                <input type="checkbox" id="goal4" class="goal-checkbox">
+                                <label for="goal4" class="goal-label">🧘 Meditate for 10 minutes</label>
+                            </div>
+                            
+                            <!-- Dynamic custom goals will be added here -->
+                            <div id="customGoalsContainer" class="custom-goals">
+                            </div>
+                            
+                            <!-- Add Goal Button -->
+                            <div class="add-goal-container">
+                                <button id="addGoalBtn" class="add-goal-btn">➕ Add Custom Goal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fixed Button Container -->
+            <div class="fixed-buttons">
+                <button id="setAlarmBtn" class="pulse-btn">Set Beautiful Alarm</button>
+                <button id="testAlarmBtn" class="danger-btn">Preview Experience</button>
+            </div>
+            
+            <div id="alarmStatus"></div>
+        </div>
+    </div>
+
+    <div id="alarmScreen" class="screen">
+        <div class="chaos-container">
+            <!-- Blinding gradient overlay -->
+            <div class="strobe-layer"></div>
+            <div class="shake-layer">
+                <div class="spinning-madness">
+                    
+                    <!-- Motivational energizing text -->
+                    <div class="motivational-text floating-text">Rise and Shine! ☀️</div>
+                    <div class="motivational-text floating-text">New Day Awaits! 🌅</div>
+                    <div class="motivational-text floating-text">You've Got This! 💪</div>
+                    <div class="motivational-text floating-text">Time to Conquer! 🚀</div>
+                    
+                    <!-- The dismiss button (more accessible now) -->
+                    <button id="realDismissBtn" class="real-dismiss">Turn Off Alarm</button>
+                    
+                    <!-- Beautiful energy orbs -->
+                    <div class="energy-orb"></div>
+                    <div class="energy-orb"></div>
+                    <div class="energy-orb"></div>
+                    
+                    <!-- PARTY POPPER CHAOS -->
+                    <div class="party-popper"></div>
+                    <div class="party-popper"></div>
+                    <div class="party-popper"></div>
+                    <div class="party-popper"></div>
+                    <div class="party-popper"></div>
+                    
+                    <!-- FLYING BIRDS MADNESS -->
+                    <div class="flying-bird"></div>
+                    <div class="flying-bird"></div>
+                    <div class="flying-bird"></div>
+                    <div class="flying-bird"></div>
+                    <div class="flying-bird"></div>
+                </div>
+            </div>
+            
+            <!-- Time display during alarm -->
+            <div id="alarmTimeDisplay" class="alarm-time-display"></div>
+        </div>
+    </div>
+
+    <!-- Audio elements for backend sound files -->
+    <audio id="sound1" loop></audio>
+    <audio id="sound2" loop></audio>
+    <audio id="sound3" loop></audio>
+    <audio id="sound4" loop></audio>
+    <audio id="sound5" loop></audio>
+    <audio id="sound6" loop></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
