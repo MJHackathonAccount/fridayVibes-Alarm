@@ -58,7 +58,7 @@ class BeautifulBrutalAlarmClock {
             const audio = document.getElementById(`sound${index + 1}`);
             if (audio) {
                 audio.src = soundFile;
-                audio.volume = 0.8;
+                audio.volume = 1.0; // MAXED OUT - Your sounds dominate!
                 
                 // Better error handling for local vs deployed
                 audio.addEventListener('loadeddata', () => {
@@ -371,7 +371,7 @@ class BeautifulBrutalAlarmClock {
         
         this.backendSounds.forEach((audio, index) => {
             if (audio.src && audio.readyState >= 2) { // HAVE_CURRENT_DATA or better
-                audio.volume = 0.8;
+                audio.volume = 1.0; // MAXED OUT - Your sounds dominate!
                 audio.loop = true;
                 
                 const playPromise = audio.play();
@@ -396,7 +396,7 @@ class BeautifulBrutalAlarmClock {
                     audio.load();
                     setTimeout(() => {
                         if (this.alarmActive && audio.readyState >= 2) {
-                            audio.volume = 0.8;
+                            audio.volume = 1.0; // MAXED OUT
                             audio.loop = true;
                             audio.play().catch(e => console.warn(`Delayed play failed for sound ${index + 1}`));
                         }
@@ -423,7 +423,7 @@ class BeautifulBrutalAlarmClock {
         oscillator.type = 'sawtooth';
         oscillator.frequency.setValueAtTime(200, this.audioContext.currentTime);
         
-        gainNode.gain.setValueAtTime(0.4, this.audioContext.currentTime); // Increased volume
+        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime); // Dialed DOWN - Your sounds lead!
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
@@ -458,7 +458,7 @@ class BeautifulBrutalAlarmClock {
         oscillator.type = 'square';
         oscillator.frequency.setValueAtTime(1200, this.audioContext.currentTime);
         
-        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime); // Dialed DOWN
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
@@ -488,7 +488,7 @@ class BeautifulBrutalAlarmClock {
         oscillator.type = 'triangle';
         oscillator.frequency.setValueAtTime(3500, this.audioContext.currentTime);
         
-        gainNode.gain.setValueAtTime(0.2, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.05, this.audioContext.currentTime); // Dialed DOWN
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
@@ -526,7 +526,7 @@ class BeautifulBrutalAlarmClock {
         
         source.buffer = buffer;
         source.loop = true;
-        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.03, this.audioContext.currentTime); // Dialed DOWN
         
         source.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
@@ -548,7 +548,7 @@ class BeautifulBrutalAlarmClock {
             oscillator.type = 'sine';
             oscillator.frequency.setValueAtTime(1800, this.audioContext.currentTime); // Higher pitch
             
-            gainNode.gain.setValueAtTime(0.6, this.audioContext.currentTime); // Louder
+            gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime); // Dialed DOWN
             gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.2);
             
             oscillator.connect(gainNode);
@@ -569,7 +569,7 @@ class BeautifulBrutalAlarmClock {
         oscillator.type = 'sawtooth';
         oscillator.frequency.setValueAtTime(150, this.audioContext.currentTime);
         
-        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime); // Dialed DOWN
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
@@ -583,7 +583,7 @@ class BeautifulBrutalAlarmClock {
             
             // Random horn blasts
             if (Math.random() < 0.3) {
-                gainNode.gain.setValueAtTime(0.5, this.audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.12, this.audioContext.currentTime); // Dialed DOWN
                 gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.8);
             }
         }, 1000);
@@ -600,7 +600,7 @@ class BeautifulBrutalAlarmClock {
         oscillator.type = 'sawtooth';
         oscillator.frequency.setValueAtTime(2000, this.audioContext.currentTime);
         
-        gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.02, this.audioContext.currentTime); // Dialed WAY DOWN
         
         oscillator.connect(gainNode);
         gainNode.connect(this.audioContext.destination);
