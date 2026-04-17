@@ -58,18 +58,31 @@ class BeautifulBrutalAlarmClock {
             const audio = document.getElementById(`sound${index + 1}`);
             if (audio) {
                 audio.src = soundFile;
-                audio.load();
+                audio.volume = 0.8;
                 
-                // Test if file exists
+                // Better error handling for local vs deployed
                 audio.addEventListener('loadeddata', () => {
-                    console.log(`✅ Loaded backend sound: ${soundFile}`);
+                    console.log(`✅ Loaded backend sound ${index + 1}: ${soundFile.split('/').pop()}`);
                 });
                 
-                audio.addEventListener('error', () => {
-                    console.log(`⚠️ Could not load: ${soundFile} (file may not exist)`);
+                audio.addEventListener('canplaythrough', () => {
+                    console.log(`🎵 Ready to play: ${soundFile.split('/').pop()}`);
                 });
                 
-                this.backendSounds.push(audio);
+                audio.addEventListener('error', (e) => {
+                    console.warn(`⚠️ Sound ${index + 1} load failed: ${soundFile.split('/').pop()} (${audio.error ? audio.error.code : 'unknown error'})`);
+                    if (location.protocol === 'file:') {
+                        console.log('📝 Note: Sound files will work when deployed to GitHub Pages!');
+                    }
+                });
+                
+                // Try to load the audio
+                try {
+                    audio.load();
+                    this.backendSounds.push(audio);
+                } catch (e) {
+                    console.warn(`Failed to load sound ${index + 1}:`, e);
+                }
             }
         });
     }
@@ -354,26 +367,52 @@ class BeautifulBrutalAlarmClock {
     
     playBackendSounds() {
         // Play all available backend sound files simultaneously
+        let soundsPlayed = 0;
+        
         this.backendSounds.forEach((audio, index) => {
-            if (audio.src) {
-                audio.volume = 0.7;
+            if (audio.src && audio.readyState >= 2) { // HAVE_CURRENT_DATA or better
+                audio.volume = 0.8;
                 audio.loop = true;
                 
-                // Try to play regardless of readyState
                 const playPromise = audio.play();
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
-                        console.log(`✅ Playing backend sound ${index + 1}: ${audio.src.split('/').pop()}`);
+                        soundsPlayed++;
+                        console.log(`🔊 Playing sound ${index + 1}: ${audio.src.split('/').pop()}`);
                     }).catch(e => {
-                        console.warn(`Backend sound ${index + 1} failed to play:`, e);
-                        // If it fails, try again after a short delay
+                        console.warn(`⚠️ Sound ${index + 1} failed to play:`, e.name || e);
+                        // Retry once after short delay
                         setTimeout(() => {
-                            audio.play().catch(e2 => console.warn(`Retry failed for sound ${index + 1}:`, e2));
-                        }, 100);
+                            if (this.alarmActive) {
+                                audio.play().catch(e2 => console.warn(`Retry failed for sound ${index + 1}`));
+                            }
+                        }, 200);
                     });
+                }
+            } else {
+                console.warn(`⚠️ Sound ${index + 1} not ready (readyState: ${audio.readyState})`);
+                // Try to load and play if not ready
+                if (audio.src) {
+                    audio.load();
+                    setTimeout(() => {
+                        if (this.alarmActive && audio.readyState >= 2) {
+                            audio.volume = 0.8;
+                            audio.loop = true;
+                            audio.play().catch(e => console.warn(`Delayed play failed for sound ${index + 1}`));
+                        }
+                    }, 500);
                 }
             }
         });
+        
+        // Show status
+        setTimeout(() => {
+            if (soundsPlayed === 0 && location.protocol === 'file:') {
+                console.log('📝 Backend sounds will work when deployed! Using generated sounds for now.');
+            } else if (soundsPlayed > 0) {
+                console.log(`🎵 ${soundsPlayed}/${this.backendSounds.length} backend sounds playing`);
+            }
+        }, 1000);
     }
     
     // BRUTAL AUDIO GENERATION METHODS (unchanged from original)
